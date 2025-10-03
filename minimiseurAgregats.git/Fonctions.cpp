@@ -284,7 +284,6 @@ void placer_triangle(int & n_atomes, double & param_supp, double* & P_coordonnee
 
 void placement_aleatoire(int & n_atomes, double & param_supp, double* & P_coordonnees)
 {
-//A venir : optimisation pour ne plus passer par la fonction plus_ou_moins
   
   srand(time(0));
   for (int i = 0 ; i < n_atomes ; i ++)
@@ -303,6 +302,29 @@ void placement_aleatoire(int & n_atomes, double & param_supp, double* & P_coordo
     }
 }
 
+void placer_sphere(int& n_atomes, double& param_supp, double*& P_coordonnees)
+{
+  double x = 0.0;
+  double y = 0.0;
+  double z = 0.0;
+
+//a) Fibonacci
+
+//b) Minimisation du modele de Thomson
+
+  //On effectue un premier placement simple, dans un plan
+    for(int i=0; i<n_atomes ; i++)
+    {
+      double x = param_supp*cos((2.0*(i+1)*M_PI)/n_atomes) ;
+      double y = param_supp*sin((2.0*(i+1)*M_PI)/n_atomes);
+      P_coordonnees[3*i] = x ;
+      P_coordonnees[(3*i)+1] = y ;
+      P_coordonnees[(3*i)+2] = 0 ; //Correspond à la coordonnée z
+    }
+
+  //On fait ensuite une minimisation
+  
+}
 
 /*bool plus_ou_moins()
 {
@@ -356,6 +378,20 @@ void placer_atomes(std::string & type_forme, int & n_atomes, double & param_supp
 
 }
 
+void placer_atomes_3D(std::string & type_forme, int & n_atomes, double & param_supp, double* & P_coordonnes)
+{
+
+}
+
+double calculer_distance_3D(double x, double y, double z)
+{
+  double results = 0.0;
+  double results_inter = 0.0;
+
+  results_inter = (x*x)+(y*y)+(z*z);
+
+  results = 
+}
 
 //Energie et potentiel//
 

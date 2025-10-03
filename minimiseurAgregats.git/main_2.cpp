@@ -25,6 +25,7 @@
 
 int n_atomes = 20 ;
 int double_n_atomes = 40 ;
+int triple_n_atomes = 60 ;
 double profondeur_mu = 0.0 ; //"Profondeur" mu du piège ; plus elle est élevée, plus l'énergie potentielle augmente
 //Lorsque l'on s'éloigne du centre
 
@@ -46,6 +47,9 @@ double dt_vdw = 0.0 ;
 double temps_cov = 0.0 ;
 double dt_cov = 0.0 ;
 
+//3D feature
+int numberOfDimensions = 0;
+
 
 /////////////////
 //CORPS DU MAIN//
@@ -59,6 +63,7 @@ int main( int argc, char **argv )
     //Choix d'une configuration particulière du fichier "Donnees.txt" par l'utilisateur
     recuperation_donnees(profondeur_mu, n_atomes, type_forme, param_supp, type_potentiel, filename);
     double_n_atomes = n_atomes*2 ;
+    triple_n_atomes = n_atomes*3 ;
 
     //Affichage des donnees dans le terminal
     std::cout << "Parametres configuration : " << std::endl ;
@@ -78,6 +83,8 @@ int main( int argc, char **argv )
 
     double* P_coordonnees_1 = new double[double_n_atomes];
     double* P_coordonnees_2 = new double[double_n_atomes];
+    double* P_coordonnees_1_sphere = new double[triple_n_atomes];
+    double* P_coordonnees_2_sphere = new double[triple_n_atomes];
 
     placer_atomes(type_forme, n_atomes, param_supp, P_coordonnees_1) ;
     placer_atomes(type_forme, n_atomes, param_supp, P_coordonnees_2) ;

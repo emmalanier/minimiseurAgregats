@@ -41,10 +41,19 @@ void placer_triangle(int &, double &, double* &);
 
 void placement_aleatoire(int&, double&, double*&);
 
+void placer_sphere(int&, double&, double*&);
+
 
 //Fonction principale
 
 void placer_atomes(std::string &, int &, double &, double* &);
+
+void placer_atomes_3D(std::string &, int &, double &, double* &);
+
+//Calcul de la distance
+
+double calcul_distance_3D(double, double, double);
+double calcul_potentiel_3D(int, int, double*&);
 
 
 ///////////////////////

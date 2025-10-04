@@ -302,18 +302,24 @@ void placement_aleatoire(int & n_atomes, double & param_supp, double* & P_coordo
     }
 }
 
-void placer_sphere(int& n_atomes, double& param_supp, double*& P_coordonnees)
+void placer_sphere(int& n_atomes, double& param_supp, double*& P_coordonnees, int& maxiter_placement, double& pas_placement)
 {
   double x = 0.0;
   double y = 0.0;
   double z = 0.0;
 
-//a) Fibonacci
+//a) Fibonacci (a venir)
 
 //b) Minimisation du modele de Thomson
 
   //On effectue un premier placement simple, dans un plan
-    for(int i=0; i<n_atomes ; i++)
+  srand(time(0));
+  double U_P_coordonnees = 0.0 ;
+  double U_nouveau_vec = 0.0 ;
+  double valeur_deplacement = 0.0 ;
+  double* nouveau_vec = new double[3*n_atomes] ;
+  
+  for(int i=0; i<n_atomes ; i++)
     {
       double x = param_supp*cos((2.0*(i+1)*M_PI)/n_atomes) ;
       double y = param_supp*sin((2.0*(i+1)*M_PI)/n_atomes);
@@ -322,9 +328,68 @@ void placer_sphere(int& n_atomes, double& param_supp, double*& P_coordonnees)
       P_coordonnees[(3*i)+2] = 0 ; //Correspond à la coordonnée z
     }
 
-  //On fait ensuite une minimisation
+
+//On fait ensuite une minimisation
+  for(int i = 0 ; i < maxiter_placement ; i ++)
+    {
+      for (int j = 0 ; j<n_atomes*3 ; j ++)
+        {
+          nouveau_vec[j] = P_coordo[j] ;
+        }
+
+      for(int j = 0 ; j<n_atomes*3 ; j ++)
+        {
+          valeur_deplacement = (2.0*(1.0*rand()/RAND_MAX)) - 1.0 ;
+          valeur_deplacement *= pas_placement ;
+          nouveau_vec[j] += valeur_deplacement ;
+        }
+
+      for(int k = 0; k<n_atomes*3 ; j++)
+        {
+          for (int l = 1; l < n_atomes*3 ; l++)
+            {
+              U_nouveau_vec += calcul_potentiel_3D(k, l);
+              U_P_coordonnees += calcul_potentiel_3D(k, l);
+            }
+
+      if(U_nouveau_vec < U_P_coordonnees)
+      {
+        for(int j = 0 ; j < n_atomes*3 ; j++)
+          {
+            P_coordo[j] = nouveau_vec[j] ;
+          }
+      }
+    }
   
 }
+
+double calcul_potentiel_3D(int a, int b)
+{
+  double result = 0.0 ;
+  double x_i = 0.0 ;
+  double y_i = 0.0 ;
+  double z_i = 0.0 ;
+  double x_j = 0.0 ;
+  double y_j = 0.0 ;
+  double z_j = 0.0 ;
+
+  x_i = vec[3*a] ;
+  y_i = vec[1+3*a] ;
+  z_i = vec[2+3*a] ;
+  x_j = vec[3*b] ;
+  y_j = vec[1+3*b] ;
+  z_j = vec[2+3*b] ;
+
+  double d_x = x_i - x_j ;
+  double d_y = y_i - y_j ;
+  double d_z = z_i - z_j ;
+
+  double distance = calcul_distance_3D(d_x, d_y, d_z) ;
+
+  result = 1.0/distance ;
+  return result ;
+}
+  
 
 /*bool plus_ou_moins()
 {
@@ -390,7 +455,7 @@ double calculer_distance_3D(double x, double y, double z)
 
   results_inter = (x*x)+(y*y)+(z*z);
 
-  results = 
+  results = sqrt(results_inter);
 }
 
 //Energie et potentiel//

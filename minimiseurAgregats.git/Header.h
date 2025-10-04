@@ -53,6 +53,7 @@ void placer_atomes_3D(std::string &, int &, double &, double* &);
 //Calcul de la distance
 
 double calcul_distance_3D(double, double, double);
+double calcul_potentiel_3D(int, int);
 
 
 ///////////////////////

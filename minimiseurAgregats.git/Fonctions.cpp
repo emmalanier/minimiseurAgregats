@@ -334,7 +334,7 @@ void placer_sphere(int& n_atomes, double& param_supp, double*& P_coordonnees, in
     {
       for (int j = 0 ; j<n_atomes*3 ; j ++)
         {
-          nouveau_vec[j] = P_coordo[j] ;
+          nouveau_vec[j] = P_coordonnees[j] ;
         }
 
       for(int j = 0 ; j<n_atomes*3 ; j ++)
@@ -344,26 +344,27 @@ void placer_sphere(int& n_atomes, double& param_supp, double*& P_coordonnees, in
           nouveau_vec[j] += valeur_deplacement ;
         }
 
-      for(int k = 0; k<n_atomes*3 ; j++)
+      for(int k = 0; k<n_atomes*3 ; k++)
         {
           for (int l = 1; l < n_atomes*3 ; l++)
             {
-              U_nouveau_vec += calcul_potentiel_3D(k, l);
-              U_P_coordonnees += calcul_potentiel_3D(k, l);
+              U_nouveau_vec += calcul_potentiel_3D(k, l, nouveau_vec);
+              U_P_coordonnees += calcul_potentiel_3D(k, l, P_coordonnees);
             }
 
       if(U_nouveau_vec < U_P_coordonnees)
       {
         for(int j = 0 ; j < n_atomes*3 ; j++)
           {
-            P_coordo[j] = nouveau_vec[j] ;
+            P_coordonnees[j] = nouveau_vec[j] ;
           }
       }
     }
   
+  }
 }
 
-double calcul_potentiel_3D(int a, int b)
+double calcul_potentiel_3D(int a, int b, double*& vec)
 {
   double result = 0.0 ;
   double x_i = 0.0 ;
@@ -448,7 +449,7 @@ void placer_atomes_3D(std::string & type_forme, int & n_atomes, double & param_s
 
 }
 
-double calculer_distance_3D(double x, double y, double z)
+double calcul_distance_3D(double x, double y, double z)
 {
   double results = 0.0;
   double results_inter = 0.0;
@@ -456,6 +457,8 @@ double calculer_distance_3D(double x, double y, double z)
   results_inter = (x*x)+(y*y)+(z*z);
 
   results = sqrt(results_inter);
+
+  return results;
 }
 
 //Energie et potentiel//

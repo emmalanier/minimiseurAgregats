@@ -302,18 +302,36 @@ void placement_aleatoire(int & n_atomes, double & param_supp, double* & P_coordo
     }
 }
 
-void placer_sphere(int& n_atomes, double& param_supp, double*& P_coordonnees, int& maxiter_placement, double& pas_placement)
+void placer_sphere(int& n_atomes, double& param_supp, double*& P_coordonnees/*, int& maxiter_placement, double& pas_placement*/)
 {
   double x = 0.0;
   double y = 0.0;
   double z = 0.0;
+  double theta = 0.0;
+  double rayonBis = 0.0;
+
+  double goldenRatio = (1.0 + sqrt(5.0))/2.0 ;
 
 //a) Fibonacci (a venir)
+
+  for(int i = 0; i<n_atomes; i++)
+    {
+      rayonBis = sqrt(1.0 - z * z);
+      theta = (i*2.0*M_PI)/goldenRatio ;
+      x = param_supp*rayonBis*cos(theta);
+      y = param_supp*rayonBis*sin(theta);
+      z = 1.0 -((2.0*i)/(n_atomes-1.0));
+
+      P_coordonnees[3*i] = x;
+      P_coordonnees[3*i+1] = y;
+      P_coordonnees[3*i+2] = z;
+    }
+      
 
 //b) Minimisation du modele de Thomson
 
   //On effectue un premier placement simple, dans un plan
-  srand(time(0));
+/*  srand(time(0));
   double U_P_coordonnees = 0.0 ;
   double U_nouveau_vec = 0.0 ;
   double valeur_deplacement = 0.0 ;
@@ -326,11 +344,11 @@ void placer_sphere(int& n_atomes, double& param_supp, double*& P_coordonnees, in
       P_coordonnees[3*i] = x ;
       P_coordonnees[(3*i)+1] = y ;
       P_coordonnees[(3*i)+2] = 0 ; //Correspond à la coordonnée z
-    }
+    }*/
 
 
 //On fait ensuite une minimisation
-  for(int i = 0 ; i < maxiter_placement ; i ++)
+/*  for(int i = 0 ; i < maxiter_placement ; i ++)
     {
       for (int j = 0 ; j<n_atomes*3 ; j ++)
         {
@@ -361,10 +379,10 @@ void placer_sphere(int& n_atomes, double& param_supp, double*& P_coordonnees, in
       }
     }
   
-  }
+  }*/
 }
 
-double calcul_potentiel_3D(int a, int b, double*& vec)
+/*double calcul_potentiel_3D(int a, int b, double*& vec)
 {
   double result = 0.0 ;
   double x_i = 0.0 ;
@@ -389,28 +407,7 @@ double calcul_potentiel_3D(int a, int b, double*& vec)
 
   result = 1.0/distance ;
   return result ;
-}
-  
-
-/*bool plus_ou_moins()
-{
-//Fonction temporaire
-  
-  bool pm = false ;
-  double pm_val = 0.0 ;
-
-  srand(time(0)) ;
-  pm_val = (1.0*rand()/RAND_MAX) ;
-
-  if (pm_val < 0.5)
-    pm = true ;
-
-  else 
-    pm = false ;
-
-  return pm ;
 }*/
-
 
 
 //Fonction principale
@@ -446,7 +443,7 @@ void placer_atomes(std::string & type_forme, int & n_atomes, double & param_supp
 
 void placer_atomes_3D(std::string & type_forme, int & n_atomes, double & param_supp, double* & P_coordonnes)
 {
-
+  return ;
 }
 
 double calcul_distance_3D(double x, double y, double z)
@@ -551,7 +548,7 @@ double calcul_NRJ_vdw(double*& vec, const int & n_atomes) //Somme les potentiels
 
 double calcul_NRJ_cov(double*& vec, const int & n_atomes)
 {
-  double result = 0.0;
+  double result = 0.0; 
 
   for(int i = 0; i < n_atomes; i++) 
     {
@@ -654,7 +651,7 @@ void Minimiser_Vdw(double* & P_coordo, const int& n_atomes, double& pas, const d
     }
   std::cout.rdbuf(coutbuf);
   fichier_log_NRJ.close();
-  fichier_log_positions.close();  
+  fichier_log_positions.close();   
 }
 
 void Minimiser_Cov(double* & P_coordo, const int& n_atomes, double& pas, const double & decremente, const int & maxiter)
@@ -736,6 +733,15 @@ void affichage_vecteur(double*& P_coordonnees, const int & n_atomes)
   for(int i = 0 ; i < n_atomes ; i++)
     {
       std::cout << std::setw(15) << P_coordonnees[i*2] << " " << P_coordonnees[i*2 + 1] << " ";
+    }
+  std::cout << std::endl ;
+}
+
+void affichage_vecteur_3D(double*& P_coordonnees, const int & n_atomes)
+{
+  for(int i = 0 ; i < n_atomes ; i++)
+    {
+      std::cout << std::setw(15) << P_coordonnees[i*3] << " " << P_coordonnees[i*3 + 1] << " " << P_coordonnees[i*3 + 2] << " ";
     }
   std::cout << std::endl ;
 }

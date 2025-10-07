@@ -23,15 +23,15 @@
 //DECLARATION DE VARIABLES//
 ////////////////////////////
 
-int n_atomes = 20 ;
-int double_n_atomes = 40 ;
-int triple_n_atomes = 60 ;
+int n_atomes = 200 ;
+int double_n_atomes = 400 ;
+int triple_n_atomes = 600 ;
 double profondeur_mu = 0.0 ; //"Profondeur" mu du piège ; plus elle est élevée, plus l'énergie potentielle augmente
 //Lorsque l'on s'éloigne du centre
 
 std::string type_forme = "Cercle "; //Stockage de la forme de départ dans laquelle sont disposés les atomes à l'instant t=0 de 
 //la simulation
-double param_supp = 0.0 ;
+double param_supp = 5.0 ;
 int type_potentiel = 1; //Type de potentiel que l'on souhaite calculer (1 pour Van der Waals, 2 pour covalent)
 std::string filename = "Donnees.txt" ; //Fichier à partir duquel on peut récupérer des données de départ. Cf "..." pour
 //la configuration du fichier
@@ -70,7 +70,7 @@ int main( int argc, char **argv )
     std::cout << "Piege avec une profondeur mu = " << profondeur_mu << std::endl ;
     std::cout << "Contient " << n_atomes << " atomes disposes en " << type_forme << "." << std::endl ;
 
-    std::cout << "Valeur du pas souhaitee ?" << std::endl ;
+/*    std::cout << "Valeur du pas souhaitee ?" << std::endl ;
     std::cin >> pas ;
     std::cout << "Valeur du facteur de decrementation souhaitée ?" << std::endl ; 
     std::cin >> decremente ;
@@ -79,7 +79,7 @@ int main( int argc, char **argv )
     std::cout << "Type de potentiel souhaite ? " << std::endl ;
     std::cout << "1. Van der Waals" << std::endl ;
     std::cout << "2. Covalent" << std::endl ;
-    std::cin >> type_potentiel ;
+    std::cin >> type_potentiel ;*/
 
     double* P_coordonnees_1 = new double[double_n_atomes];
     double* P_coordonnees_2 = new double[double_n_atomes];
@@ -88,8 +88,17 @@ int main( int argc, char **argv )
 
     placer_atomes(type_forme, n_atomes, param_supp, P_coordonnees_1) ;
     placer_atomes(type_forme, n_atomes, param_supp, P_coordonnees_2) ;
+    placer_sphere(n_atomes, param_supp, P_coordonnees_1_sphere);
 
-    if(type_potentiel == 1)
+    for(int i=0; i<n_atomes; i++)
+      {
+          std::streambuf* coutbufcoordo = std::cout.rdbuf();
+          std::ofstream fichier_log_positions("3D_coordinates.txt");
+          std::cout.rdbuf(fichier_log_positions.rdbuf());
+          affichage_vecteur_3D(P_coordonnees_1_sphere, n_atomes) ;
+      }
+
+/*    if(type_potentiel == 1)
         {
             temps_vdw = clock ();    
             Minimiser_Vdw(P_coordonnees_1, n_atomes, pas, decremente, maxiter) ;
@@ -124,7 +133,7 @@ int main( int argc, char **argv )
             dt_cov /= (double)CLOCKS_PER_SEC ;
         
             std::cout << "Minimisation pour Covalent terminée, avec un temps de calcul de " << dt_cov << " secondes." << std::endl ;
-        }
+        }*/
 
     return 0 ; 
 }

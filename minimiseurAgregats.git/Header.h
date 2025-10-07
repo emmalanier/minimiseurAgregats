@@ -55,6 +55,8 @@ void placer_atomes_3D(std::string &, int &, double &, double* &);
 double calcul_distance_3D(double, double, double);
 double calcul_potentiel_3D(int, int, double*&);
 
+double calcul_distance_3D(double, double, double);
+
 
 ///////////////////////
 //FONCTIONS DE CALCUL//
@@ -70,5 +72,6 @@ void Minimiser_Vdw(double* &, const int&, double&, const double&, const int &);
 void Minimiser_Cov(double* &, const int&, double&, const double&, const int &);
 
 void affichage_vecteur(double*&, const int &);
+void affichage_vecteur_3D(double*&, const int &);
 
 #endif

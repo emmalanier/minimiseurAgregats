@@ -446,286 +446,38 @@ void placer_atomes_3D(std::string & type_forme, int & n_atomes, double & param_s
   return ;
 }
 
-double calcul_distance_3D(double x, double y, double z)
+
+/////////////////////
+//TEST PLACEMENT 3D//
+/////////////////////
+
+/*
+struct structPlacement
 {
-  double results = 0.0;
-  double results_inter = 0.0;
+  double q;
+  double x;
+  double y;
+  double z;
+  double m;
+};
 
-  results_inter = (x*x)+(y*y)+(z*z);
+void test3D(int n)
+{
+  std::vector
+  for(int i = 0; i<n; i++)
+  (
 
-  results = sqrt(results_inter);
+    Minimisation
 
-  return results;
+  )
+
 }
 
-//Energie et potentiel//
+vecteur deplacement
 
-double calcul_cov(int& a, int& b, double*& vec) //Calcule le potentiel covalent entre un atome i et un atome j
-{
-  double result = 0.0 ;
-  double x_i = 0.0 ; //Var pour stock coordonnee en x de l'atome i
-  double y_i = 0.0 ; //Var pour stock coordonnee en y de l'atome i
-  double x_j = 0.0 ; //Var pour stock coordonnee en x de l'atome j
-  double y_j = 0.0 ; //Var pour stock coordonnee en y de l'atome j
+calcul force elec
 
-  //Transmission des coordonnees aux variables prévues pour
-  x_i = vec[2*a] ;
-  y_i = vec[1+2*a] ;
-  x_j = vec[2*b] ;
-  y_j = vec[1+2*b] ;
-
-  //Calcul des distances entre les coordonnees des deux atomes
-  double d_x = x_i - x_j ;
-  double d_y = y_i - y_j ;
-
-  double r_carre = (d_x * d_x) + (d_y * d_y) ; //Distance entre les deux atomes au carré
-  double u_carre = r_carre + 0.25 ;
-  double s_carre = (d_x * d_x) - (d_y * d_y) ;
-  double s_puissance_4 = s_carre * s_carre ;
-  double u_puissance_4 = u_carre * u_carre ;
-
-  result =  (1.0/u_puissance_4) * (1.0 - (s_puissance_4/u_carre)); //Formule donnant la valeur du potentiel
-  return result ;
-}
-
-double calcul_vdw(int& a, int& b, double*& vec)
-{
-  double result = 0.0 ;
-  double x_i = 0.0 ;
-  double y_i = 0.0 ;
-  double x_j = 0.0 ;
-  double y_j = 0.0 ;
-
-  x_i = vec[2*a] ;
-  y_i = vec[1+2*a] ;
-  x_j = vec[2*b] ;
-  y_j = vec[1+2*b] ;
-
-  double d_x = x_i - x_j ;
-  double d_y = y_i - y_j ;
-
-  double r_carre = (d_x * d_x) + (d_y * d_y) ;
-  double u_carre = r_carre + 0.25 ;
-  double u_puissance_4 = u_carre * u_carre ;
-
-  result = (1.0/u_puissance_4) - (1.0/u_carre) ;
-  return result ;
-}
-
-double calcul_piege(int& a, double*& vec) //Calcule l'énergie potentielle du piège en 1 point
-{
-  double coordo_x = 0.0 ;
-  double coordo_y = 0.0 ;
-  double result = 0.0 ;
-
-  coordo_x = vec[2*a] ;
-  coordo_y = vec[1+2*a] ;
-
-  double x_carre = coordo_x * coordo_x ;
-  double y_carre = coordo_y * coordo_y ;
-
-  result = 0.1 * (x_carre + y_carre) ;
-
-  return result ;
-}
-
-double calcul_NRJ_vdw(double*& vec, const int & n_atomes) //Somme les potentiels entre chaque atomes, pour obtenir
-//L'énergie totale du système
-{
-  double result = 0.0;
-
-  for(int i = 0; i < n_atomes; i++) 
-    {
-      result += calcul_piege(i, vec);
-      for(int j = i + 1; j < n_atomes; j++) 
-        {
-          result += calcul_vdw(i, j, vec);
-        }
-    }
-
-  return result;
-}
-
-double calcul_NRJ_cov(double*& vec, const int & n_atomes)
-{
-  double result = 0.0; 
-
-  for(int i = 0; i < n_atomes; i++) 
-    {
-      result += calcul_piege(i, vec);
-      for(int j = i + 1; j < n_atomes; j++) 
-        {
-          result += calcul_cov(i, j, vec);
-        }
-    }
-
-  return result;
-}
-
-
-/////////////////////////////
-//FONCTIONS DE MINIMISATION//
-/////////////////////////////
-
-//Pour minimiser les potentiels, ici, on passe par une recherche de Monte-Carlo. L'algorithme, dans la première 
-//partie, va créer un nouveau vecteur, identique à celui stockant les coordonnées des atomes. Dans ce nouveau vecteur, 
-//les coordonnées vont TOUTES être modifiées de manière aléatoire. L'énergie correspondant au système que représente 
-//le nouveau vecteur est alors calculée. Si celle-ci est inférieure à celle du vecteur comportant les coordonnées 
-//actuelles des atomes, les valeurs du nouveau vecteur remplacent les anciennes. Sinon, le vecteur des coordonnées
-//actuelles reste inchangé.
-
-//Une fois que l'on a fait un quart des itérations, le fonctionnement diffère légèrement. Au lieu de changer les 
-//coordonnées de tous les atomes puis d'évaluer l'énergie du nouveau système, seules les coordonnées d'un atome sont 
-//modifiées avant de réévaluer l'énergie. Si cette modification permet de la diminuer, elle est conservée. Sinon, 
-//l'atome conserve ses coordonnées actuelles.
-
-void Minimiser_Vdw(double* & P_coordo, const int& n_atomes, double& pas, const double & decremente, const int & maxiter)
-{
-  std::streambuf* coutbuf = std::cout.rdbuf();
-  std::ofstream fichier_log_NRJ("NRJ_minimisation_vdw.txt");
-  std::ofstream fichier_log_positions("Donnees_minimisation_vdw.txt");
-
-  srand(time(0));
-  double NRJ_P_coordo = 0.0 ;
-  double NRJ_nouveau_vec = 0.0 ;
-  double valeur_deplacement = 0.0 ;
-  double* nouveau_vec = new double[2*n_atomes] ;
-
-
-  for(int i = 0 ; i < maxiter ; i ++)
-    {
-      //Partie 1 de la recherche de Monte-Carlo : tout le vecteur est modifié avant d'évaluer l'énergie
-      for (int j = 0 ; j<n_atomes*2 ; j ++)
-        {
-          nouveau_vec[j] = P_coordo[j] ;
-        }
-
-      for(int j = 0 ; j<n_atomes*2 ; j ++)
-        {
-          valeur_deplacement = (2.0*(1.0*rand()/RAND_MAX)) - 1.0 ;
-          valeur_deplacement *= pas ;
-          nouveau_vec[j] += valeur_deplacement ;
-        }
-
-      NRJ_P_coordo = calcul_NRJ_vdw(P_coordo, n_atomes);
-      NRJ_nouveau_vec = calcul_NRJ_vdw(nouveau_vec, n_atomes);
-
-      if(NRJ_nouveau_vec < NRJ_P_coordo)
-      {
-        for(int j = 0 ; j < n_atomes*2 ; j++)
-          {
-            P_coordo[j] = nouveau_vec[j] ;
-          }
-      }
-
-      //Partie 2 de la recherche de Monte-Carlo : 1 modification de coordonnées = 1 évaluation de l'énergie
-      if(i >= maxiter/4)
-      {
-        for(int j = 0 ; j < n_atomes ; j++)
-          {
-            valeur_deplacement = (2.0*(1.0*rand()/RAND_MAX)) - 1.0 ;
-            valeur_deplacement *= pas ;
-            nouveau_vec[j] += valeur_deplacement ;
-
-            NRJ_P_coordo = calcul_NRJ_vdw(P_coordo, n_atomes);
-            NRJ_nouveau_vec = calcul_NRJ_vdw(nouveau_vec, n_atomes);  
-
-            if(NRJ_nouveau_vec < NRJ_P_coordo)
-            {
-              P_coordo[j] = nouveau_vec[j];
-            }
-          }
-      }
-
-      if(i%20 == 0) //A modifier pour que l'utilisateur puisse moduler la fréquence d'output des données
-      {
-        std::cout.rdbuf(fichier_log_NRJ.rdbuf());
-        std::cout << "Iter #" << i << " :" << std::endl ;
-        std::cout << "Ancienne energie : " << NRJ_P_coordo << std::endl ;
-        std::cout << "Nouvelle energie : " << NRJ_nouveau_vec << std::endl ;
-        std::cout.rdbuf(fichier_log_positions.rdbuf());
-        affichage_vecteur(P_coordo, n_atomes) ;
-        pas/=decremente;
-      }
-
-    }
-  std::cout.rdbuf(coutbuf);
-  fichier_log_NRJ.close();
-  fichier_log_positions.close();   
-}
-
-void Minimiser_Cov(double* & P_coordo, const int& n_atomes, double& pas, const double & decremente, const int & maxiter)
-{
-  std::streambuf* coutbuf = std::cout.rdbuf();
-  std::ofstream fichier_log_NRJ("NRJ_minimisation_cov.txt");
-  std::ofstream fichier_log_positions("Donnees_minimisation_cov.txt");
-
-  srand(time(0));
-  double NRJ_P_coordo = 0.0 ;
-  double NRJ_nouveau_vec = 0.0 ;
-  double valeur_deplacement = 0.0 ;
-  double* nouveau_vec = new double[2*n_atomes] ;
-
-
-  for(int i = 0 ; i < maxiter ; i ++)
-    {
-      for (int j = 0 ; j<n_atomes*2 ; j ++)
-        {
-          nouveau_vec[j] = P_coordo[j] ;
-        }
-
-      for(int j = 0 ; j<n_atomes*2 ; j ++)
-        {
-          valeur_deplacement = (2.0*(1.0*rand()/RAND_MAX)) - 1.0 ;
-          valeur_deplacement *= pas ;
-          nouveau_vec[j] += valeur_deplacement ;
-        }
-
-      NRJ_P_coordo = calcul_NRJ_cov(P_coordo, n_atomes);
-      NRJ_nouveau_vec = calcul_NRJ_cov(nouveau_vec, n_atomes);
-
-      if(NRJ_nouveau_vec < NRJ_P_coordo)
-      {
-        for(int j = 0 ; j < n_atomes*2 ; j++)
-          {
-            P_coordo[j] = nouveau_vec[j] ;
-          }
-      }
-
-      if(i >= maxiter/4)
-      {
-        for(int j = 0 ; j < n_atomes ; j++)
-          {
-            valeur_deplacement = (2.0*(1.0*rand()/RAND_MAX)) - 1.0 ;
-            valeur_deplacement *= pas ;
-            nouveau_vec[j] += valeur_deplacement ;
-
-            NRJ_P_coordo = calcul_NRJ_cov(P_coordo, n_atomes);
-            NRJ_nouveau_vec = calcul_NRJ_cov(nouveau_vec, n_atomes);  
-
-            if(NRJ_nouveau_vec < NRJ_P_coordo)
-            {
-              P_coordo[j] = nouveau_vec[j];
-            }
-          }
-      }
-
-      if(i%20 == 0)
-      {
-        std::cout.rdbuf(fichier_log_NRJ.rdbuf());
-        std::cout << "Iter #" << i << " :" << std::endl ;
-        std::cout << "Ancienne energie : " << NRJ_P_coordo << std::endl ;
-        std::cout << "Nouvelle energie : " << NRJ_nouveau_vec << std::endl ;
-        std::cout.rdbuf(fichier_log_positions.rdbuf());
-        affichage_vecteur(P_coordo, n_atomes) ;
-        pas/=decremente;
-      }
-
-    }
-  std::cout.rdbuf(coutbuf);
-  fichier_log_NRJ.close();
-  fichier_log_positions.close();  
-}
+*/
 
 
 void affichage_vecteur(double*& P_coordonnees, const int & n_atomes)

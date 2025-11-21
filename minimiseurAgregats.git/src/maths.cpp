@@ -1,0 +1,144 @@
+///////////////////////////////
+//MINIMISEUR AGREGATS - MATHS//
+///////////////////////////////
+
+#include "fonctions.h"
+
+////////////////////
+//CALCUL VECTORIEL//
+////////////////////
+
+double calcul_distance_3D(double x, double y, double z)
+{
+  double results = 0.0;
+  double results_inter = 0.0;
+
+  results_inter = (x*x)+(y*y)+(z*z);
+
+  results = sqrt(results_inter);
+
+  return results;
+}
+
+//////////////
+//POTENTIELS//
+//////////////
+
+double calcul_cov(int& a, int& b, double*& vec) //Calcule le potentiel covalent entre un atome i et un atome j
+{
+  double result = 0.0 ;
+  double x_i = 0.0 ; //Var pour stock coordonnee en x de l'atome i
+  double y_i = 0.0 ; //Var pour stock coordonnee en y de l'atome i
+  double x_j = 0.0 ; //Var pour stock coordonnee en x de l'atome j
+  double y_j = 0.0 ; //Var pour stock coordonnee en y de l'atome j
+
+  //Transmission des coordonnees aux variables prévues pour
+  x_i = vec[2*a] ;
+  y_i = vec[1+2*a] ;
+  x_j = vec[2*b] ;
+  y_j = vec[1+2*b] ;
+
+  //Calcul des distances entre les coordonnees des deux atomes
+  double d_x = x_i - x_j ;
+  double d_y = y_i - y_j ;
+
+  double r_carre = (d_x * d_x) + (d_y * d_y) ; //Distance entre les deux atomes au carré
+  double u_carre = r_carre + 0.25 ;
+  double s_carre = (d_x * d_x) - (d_y * d_y) ;
+  double s_puissance_4 = s_carre * s_carre ;
+  double u_puissance_4 = u_carre * u_carre ;
+
+  result =  (1.0/u_puissance_4) * (1.0 - (s_puissance_4/u_carre)); //Formule donnant la valeur du potentiel
+  return result ;
+}
+
+double calcul_vdw(int& a, int& b, double*& vec)
+{
+  double result = 0.0 ;
+  double x_i = 0.0 ;
+  double y_i = 0.0 ;
+  double x_j = 0.0 ;
+  double y_j = 0.0 ;
+
+  x_i = vec[2*a] ;
+  y_i = vec[1+2*a] ;
+  x_j = vec[2*b] ;
+  y_j = vec[1+2*b] ;
+
+  double d_x = x_i - x_j ;
+  double d_y = y_i - y_j ;
+
+  double r_carre = (d_x * d_x) + (d_y * d_y) ;
+  double u_carre = r_carre + 0.25 ;
+  double u_puissance_4 = u_carre * u_carre ;
+
+  result = (1.0/u_puissance_4) - (1.0/u_carre) ;
+  return result ;
+}
+
+double calcul_piege(int& a, double*& vec) //Calcule l'énergie potentielle du piège en 1 point
+{
+  double coordo_x = 0.0 ;
+  double coordo_y = 0.0 ;
+  double result = 0.0 ;
+
+  coordo_x = vec[2*a] ;
+  coordo_y = vec[1+2*a] ;
+
+  double x_carre = coordo_x * coordo_x ;
+  double y_carre = coordo_y * coordo_y ;
+
+  result = 0.1 * (x_carre + y_carre) ;
+
+  return result ;
+}
+
+///////////
+//ENERGIE//
+///////////
+
+double calcul_NRJ_vdw(double*& vec, const int & n_atomes) //Somme les potentiels entre chaque atomes, pour obtenir
+//L'énergie totale du système
+{
+  double result = 0.0;
+
+  for(int i = 0; i < n_atomes; i++) 
+    {
+      result += calcul_piege(i, vec);
+      for(int j = i + 1; j < n_atomes; j++) 
+        {
+          result += calcul_vdw(i, j, vec);
+        }
+    }
+
+  return result;
+}
+
+double calcul_NRJ_cov(double*& vec, const int & n_atomes)
+{
+  double result = 0.0; 
+
+  for(int i = 0; i < n_atomes; i++) 
+    {
+      result += calcul_piege(i, vec);
+      for(int j = i + 1; j < n_atomes; j++) 
+        {
+          result += calcul_cov(i, j, vec);
+        }
+    }
+
+  return result;
+}
+
+//////////
+//FORCES//
+//////////
+
+force calcForceElec(partChargee part1, partChargee part2)
+{
+  force results;
+
+  vecteur distance1vers2 = calculDistance(part1.lieu, part2.lieu);
+
+}
+

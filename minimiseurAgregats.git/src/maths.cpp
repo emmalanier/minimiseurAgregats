@@ -138,7 +138,43 @@ force calcForceElec(partChargee part1, partChargee part2)
 {
   force results;
 
-  vecteur distance1vers2 = calculDistance(part1.lieu, part2.lieu);
+  vecteur r = part2.lieu - part1.lieu;
+  r.norme = sqrt(r.compoX*r.compoX + r.compoY*r.compoY + r.compoZ*r.compoZ;
+  double r2 = r.norme*r.norme;
+  vecteur direction = distance1vers2.normalize();
+
+  results.valeur = (part1.charge*part2.charge)/(4*M_PI*epsilon_0*distance1Vers2Carre);
+
+  results.compoX = results.valeur * direction.compoX;
+  results.compoY = results.valeur * direction.compoY;
+  results.compoZ = results.valeur * direction.compoZ;
+
+  return results;
 
 }
 
+vecteur calculAcceleration(std::vector <force> & vecForces, partChargee & particule)
+{
+  //On part du principe que nous sommes dans une cadre non-relativiste, donc F = ma
+
+  vecteur results;
+
+  vecteur sommeForces;
+
+  sommeForces.compoX = 0.0;
+  sommeForces.compoY = 0.0;
+  sommeForces.compoZ = 0.0;
+
+  for(int i=0; i<vecForces.size(); i++)
+    sommeForces += vecForces[i];
+
+  results = sommeForces*(1.0/particule.masse);
+
+  return results;
+}
+  
+void partChargee::update(double dt);
+{
+  vitesse = vitesse + acceleration*dt;
+  lieu = lieu + vitesse*dt;
+}

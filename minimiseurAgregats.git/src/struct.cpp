@@ -15,6 +15,17 @@ vecteur operator-(const vecteur& va, const vecteur& vb)
   return results;
 }
 
+vecteur operator-(const position& pa, const position& pb)
+{
+  vecteur results;
+
+  results.compoX = pa.x - pb.x;
+  results.compoY = pa.y - pb.y;
+  results.compoZ = pa.z - pb.z;
+
+  return results;
+}
+
 vecteur operator+(const vecteur& va, const vecteur& vb)
 {
   vecteur results;
@@ -42,6 +53,31 @@ vecteur operator*(const double& scalaire, const vecteur& va)
   results.compoX = va.compoX * scalaire;
   results.compoY = va.compoY * scalaire;
   results.compoZ = va.compoZ * scalaire;
+
+  return results;
+}
+
+position operator+(const position& p, const vecteur& va)
+{
+  position results ;
+
+  results.x = p.x + va.compoX;
+  results.y = p.y + va.compoY;
+  results.z = p.z + va.compoZ;
+
+  return results ;
+}
+
+
+vecteur vecteur::normalize()
+{
+  vecteur results;
+
+  double norme = sqrt(compoX*compoX + compoY*compoY + compoZ*compoZ);
+
+  results.compoX = compoX/norme;
+  results.compoY = compoY/norme;
+  results.compoZ = compoZ/norme;
 
   return results;
 }

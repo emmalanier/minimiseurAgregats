@@ -4,7 +4,7 @@
 #ifndef HEADER_H
 #define HEADER_H
 
-#define epsilon_0 = 8.85e-1
+#define epsilon_0 = 8.85e-12
 
 ////////////
 //INCLUDES//
@@ -38,6 +38,8 @@ struct vecteur
   double compoZ;
 
   double norme;
+
+  vecteur normalize();
 };
 
 struct force
@@ -54,6 +56,9 @@ struct partChargee
 
   position lieu;
   vecteur vitesse;
+  vecteur acceleration;
+
+  void update();
 };
 
 ////////////////////////////////////////////////////
@@ -106,6 +111,7 @@ void Minimiser_Vdw(double* &, const int&, double&, const double&, const int &);
 void Minimiser_Cov(double* &, const int&, double&, const double&, const int &);
 
 force calcForceElec();
+vecteur calculAcceleration(std::vector <force> &, partChargee &);
 
 void affichage_vecteur(double*&, const int &);
 void affichage_vecteur_3D(double*&, const int &);
@@ -115,5 +121,6 @@ vecteur operator-(const vecteur&, const vecteur&);
 vecteur operator+(const vecteur&, const vecteur&);
 double operator*(const vecteur&, const vecteur&);
 vecteur operator*(const double&, const vecteur&);
+position operator+(const position&, const vecteur&);
 
 #endif

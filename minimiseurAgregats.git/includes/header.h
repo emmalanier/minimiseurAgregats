@@ -113,7 +113,7 @@ void affichage_vecteur_3D(double*&, const int &);
 //SURCHARGE OPERATEURS ETC//
 vecteur operator-(const vecteur&, const vecteur&);
 vecteur operator+(const vecteur&, const vecteur&);
-vecteur operator*(const vecteur&, const vecteur&);
+double operator*(const vecteur&, const vecteur&);
 vecteur operator*(const double&, const vecteur&);
 
 #endif

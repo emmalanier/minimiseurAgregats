@@ -446,6 +446,40 @@ void placer_atomes_3D(std::string & type_forme, int & n_atomes, double & param_s
   return ;
 }
 
+void placerSphereBis(int& n, double& dt, double& rayon, std::vector <partChargee> vec, double& tpsTotal)
+{
+  force forceTotaleApp;
+  forceTotaleApp.vecForce.compoX = 0.0;
+  forceTotaleApp.vecForce.compoY = 0.0;
+  forceTotaleApp.vecForce.compoZ = 0.0;
+  
+    for(int i=0; i<n ; i++)
+    {
+      double x = rayon *cos((2.0*(i+1)*M_PI)/n) ;
+      double y = rayon*sin((2.0*(i+1)*M_PI)/n);
+      vec[i].lieu.x = x ;
+      vec[i].lieu.y = y ;
+      vec[i].lieu.z = 0.0 ; //Correspond à la coordonnée z
+    }
+
+  for(int t=0; t<=tpsTotal; t+=dt)
+    {
+      for(int i=0; i<vec.size(); i++)
+        {
+          forceTotaleApp.setToZero();
+
+          for(int j=0; j<vec.size(); j++)
+            {
+              if(j!=i)
+                {
+                  forceTotaleApp += calcForceElec(vec[i], vec[j]);
+                }
+            }
+
+          vec[i].forceSubie = forceTotaleApp;
+          
+  
+}
 
 /////////////////////
 //TEST PLACEMENT 3D//

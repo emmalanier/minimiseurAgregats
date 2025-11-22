@@ -2,7 +2,7 @@
 //MINIMISEUR AGREGATS - MATHS//
 ///////////////////////////////
 
-#include "fonctions.h"
+#include "header.h"
 
 ////////////////////
 //CALCUL VECTORIEL//
@@ -139,15 +139,15 @@ force calcForceElec(partChargee part1, partChargee part2)
   force results;
 
   vecteur r = part2.lieu - part1.lieu;
-  r.norme = sqrt(r.compoX*r.compoX + r.compoY*r.compoY + r.compoZ*r.compoZ;
+  r.norme = sqrt(r.compoX*r.compoX + r.compoY*r.compoY + r.compoZ*r.compoZ);
   double r2 = r.norme*r.norme;
-  vecteur direction = distance1vers2.normalize();
+  vecteur direction = r.normalize();
 
-  results.valeur = (part1.charge*part2.charge)/(4*M_PI*epsilon_0*distance1Vers2Carre);
+  results.valeur = (part1.charge*part2.charge)/(4*M_PI*epsilon_0*r2);
 
-  results.compoX = results.valeur * direction.compoX;
-  results.compoY = results.valeur * direction.compoY;
-  results.compoZ = results.valeur * direction.compoZ;
+  results.vecForce.compoX = results.valeur * direction.compoX;
+  results.vecForce.compoY = results.valeur * direction.compoY;
+  results.vecForce.compoZ = results.valeur * direction.compoZ;
 
   return results;
 
@@ -166,15 +166,15 @@ vecteur calculAcceleration(std::vector <force> & vecForces, partChargee & partic
   sommeForces.compoZ = 0.0;
 
   for(int i=0; i<vecForces.size(); i++)
-    sommeForces += vecForces[i];
+    sommeForces = sommeForces + vecForces[i].vecForce;
 
-  results = sommeForces*(1.0/particule.masse);
+  results = (1.0/particule.masse)*sommeForces;
 
   return results;
 }
   
-void partChargee::update(double dt);
+void partChargee::update(double dt)
 {
-  vitesse = vitesse + acceleration*dt;
-  lieu = lieu + vitesse*dt;
+  vitesse = vitesse + dt*acceleration;
+  lieu = lieu + dt*vitesse;
 }

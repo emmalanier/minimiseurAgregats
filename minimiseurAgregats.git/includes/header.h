@@ -4,7 +4,7 @@
 #ifndef HEADER_H
 #define HEADER_H
 
-#define epsilon_0 = 8.85e-12
+#define epsilon_0 8.85e-12
 
 ////////////
 //INCLUDES//
@@ -33,7 +33,7 @@ struct vecteur
 {
   position ptApp;
 
-  double compoX
+  double compoX;
   double compoY;
   double compoZ;
 
@@ -46,8 +46,9 @@ struct force
 {
   vecteur vecForce;
   double valeur;
-  position lieuApp;
-}
+
+  void setToZero;
+};
 
 struct partChargee
 {
@@ -57,8 +58,9 @@ struct partChargee
   position lieu;
   vecteur vitesse;
   vecteur acceleration;
+  force forceSubie;
 
-  void update();
+  void update(double);
 };
 
 ////////////////////////////////////////////////////
@@ -83,6 +85,7 @@ void placer_carre(int &, double &, double* &);
 void placer_triangle(int &, double &, double* &);
 void placement_aleatoire(int&, double&, double*&);
 void placer_sphere(int&, double&, double*&);
+void placerSphereBis(int&, double&);
 
 
 //Fonction principale
@@ -122,5 +125,6 @@ vecteur operator+(const vecteur&, const vecteur&);
 double operator*(const vecteur&, const vecteur&);
 vecteur operator*(const double&, const vecteur&);
 position operator+(const position&, const vecteur&);
+vecteur operator-(const position&, const position&);
 
 #endif

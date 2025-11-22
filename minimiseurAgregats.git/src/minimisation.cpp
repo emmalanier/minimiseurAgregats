@@ -2,7 +2,7 @@
 //MINIMISEUR AGREGATS - MINIMISATION//
 //////////////////////////////////////
 
-#include "fonctions.h"
+#include "header.h"
 
 /////////////////////////////
 //FONCTIONS DE MINIMISATION//

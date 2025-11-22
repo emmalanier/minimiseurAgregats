@@ -81,3 +81,16 @@ vecteur vecteur::normalize()
 
   return results;
 }
+
+void force::setToZero()
+{
+  valeur = 0.0;
+  
+  vecForce.compoX = 0.0;
+  vecForce.compoY = 0.0;
+  vecForce.compoZ = 0.0;
+  
+  vecForce.ptApp.x = 0.0;
+  vecForce.ptApp.y = 0.0;
+  vecForce.ptApp.z = 0.0;
+}

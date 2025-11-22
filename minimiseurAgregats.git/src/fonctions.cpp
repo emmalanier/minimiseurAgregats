@@ -449,9 +449,7 @@ void placer_atomes_3D(std::string & type_forme, int & n_atomes, double & param_s
 void placerSphereBis(int& n, double& dt, double& rayon, std::vector <partChargee> vec, double& tpsTotal)
 {
   force forceTotaleApp;
-  forceTotaleApp.vecForce.compoX = 0.0;
-  forceTotaleApp.vecForce.compoY = 0.0;
-  forceTotaleApp.vecForce.compoZ = 0.0;
+  forceTotaleApp.setToZero();
   
     for(int i=0; i<n ; i++)
     {
@@ -476,7 +474,15 @@ void placerSphereBis(int& n, double& dt, double& rayon, std::vector <partChargee
                 }
             }
 
-          vec[i].forceSubie = forceTotaleApp;
+            vec[i].forceSubie = forceTotaleApp;
+        }
+
+      for(int i=0; i<vec.size(); i++)
+        {
+          vec[i].update(t)
+        }
+      }
+}
           
   
 }

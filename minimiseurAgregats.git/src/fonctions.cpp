@@ -446,78 +446,63 @@ void placer_atomes_3D(std::string & type_forme, int & n_atomes, double & param_s
   return ;
 }
 
-void placerSphereBis(int& n, double& dt, double& rayon, std::vector <partChargee> vec, double& tpsTotal)
+std::vector <partChargee> placerSphereBis(int& n, double& dt, double& rayon, double& tpsTotal)
 {
+  std::vector <partChargee> results;
+  results.resize(n);
   force forceTotaleApp;
   forceTotaleApp.setToZero();
+  partChargee noyau;
+  noyau.lieu.x = 0.0;
+  noyau.lieu.y = 0.0;
+  noyau.lieu.z = 0.0;
+  noyau.charge = n*1.0;
   
     for(int i=0; i<n ; i++)
     {
       double x = rayon *cos((2.0*(i+1)*M_PI)/n) ;
       double y = rayon*sin((2.0*(i+1)*M_PI)/n);
-      vec[i].lieu.x = x ;
-      vec[i].lieu.y = y ;
-      vec[i].lieu.z = 0.0 ; //Correspond à la coordonnée z
+      results[i].lieu.x = x ;
+      results[i].lieu.y = y ;
+      results[i].lieu.z = 1.0 -((2.0*i)/(n-1.0)); //Correspond à la coordonnée z
+      results[i].masse = 9.1e-31;
+      results[i].charge = -1.0;
+      results[i].forceSubie.setToZero();
     }
 
-  for(int t=0; t<=tpsTotal; t+=dt)
+  for(double t=0.0; t<=tpsTotal; t+=dt)
     {
-      for(int i=0; i<vec.size(); i++)
+      for(int i=0; i<n; i++)
         {
           forceTotaleApp.setToZero();
 
-          for(int j=0; j<vec.size(); j++)
+          for(int j=0; j<n; j++)
             {
               if(j!=i)
                 {
-                  forceTotaleApp += calcForceElec(vec[i], vec[j]);
+                  forceTotaleApp += calcForceElec(results[i], results[j]);
                 }
             }
 
-            vec[i].forceSubie = forceTotaleApp;
+            forceTotaleApp += calcForceElec(results[i], noyau);
+            results[i].forceSubie = forceTotaleApp;
+            results[i].acceleration = calculAcceleration(results[i]);
         }
 
-      for(int i=0; i<vec.size(); i++)
+      for(int i=0; i<n; i++)
         {
-          vec[i].update(t)
+          results[i].update(t);
         }
       }
+  return results;
 }
           
   
-}
+
 
 /////////////////////
 //TEST PLACEMENT 3D//
 /////////////////////
-
-/*
-struct structPlacement
-{
-  double q;
-  double x;
-  double y;
-  double z;
-  double m;
-};
-
-void test3D(int n)
-{
-  std::vector
-  for(int i = 0; i<n; i++)
-  (
-
-    Minimisation
-
-  )
-
-}
-
-vecteur deplacement
-
-calcul force elec
-
-*/
 
 
 void affichage_vecteur(double*& P_coordonnees, const int & n_atomes)

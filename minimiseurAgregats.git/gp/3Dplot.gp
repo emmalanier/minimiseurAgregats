@@ -3,7 +3,7 @@
 # 3D Plot Script - Single Configuration
 # ==========================================
 
-filename = '3D_coordinates.txt'
+filename = '../src/3D_coordinates.txt'
 
 # Lecture du nombre d'atomes depuis la première ligne
 firstline = system("head -n 1 ".filename)

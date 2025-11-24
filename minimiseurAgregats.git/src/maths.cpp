@@ -153,22 +153,22 @@ force calcForceElec(partChargee part1, partChargee part2)
 
 }
 
-vecteur calculAcceleration(std::vector <force> & vecForces, partChargee & particule)
+vecteur calculAcceleration(/*std::vector <force> & vecForces,*/ partChargee & particule)
 {
   //On part du principe que nous sommes dans une cadre non-relativiste, donc F = ma
 
   vecteur results;
 
-  vecteur sommeForces;
+  //vecteur sommeForces;
 
-  sommeForces.compoX = 0.0;
-  sommeForces.compoY = 0.0;
-  sommeForces.compoZ = 0.0;
+  //sommeForces.compoX = 0.0;
+  //sommeForces.compoY = 0.0;
+  //sommeForces.compoZ = 0.0;
 
-  for(int i=0; i<vecForces.size(); i++)
-    sommeForces = sommeForces + vecForces[i].vecForce;
+  //for(int i=0; i<vecForces.size(); i++)
+  //  sommeForces = sommeForces + vecForces[i].vecForce;
 
-  results = (1.0/particule.masse)*sommeForces;
+  results = (1.0/particule.masse)*particule.forceSubie.vecForce;
 
   return results;
 }

@@ -23,7 +23,7 @@
 //DECLARATION DE VARIABLES//
 ////////////////////////////
 
-int n_atomes = 200 ;
+/*int n_atomes = 200 ;
 int double_n_atomes = 400 ;
 int triple_n_atomes = 600 ;
 double profondeur_mu = 0.0 ; //"Profondeur" mu du piège ; plus elle est élevée, plus l'énergie potentielle augmente
@@ -48,27 +48,27 @@ double temps_cov = 0.0 ;
 double dt_cov = 0.0 ;
 
 //3D feature
-int numberOfDimensions = 0;
+int numberOfDimensions = 0;*/
 
 
 /////////////////
 //CORPS DU MAIN//
 /////////////////
 
-int main( int argc, char **argv )
+int main( /*int argc, char **argv*/ )
 {
     //Recuperation de toutes les donnees contenues dans le fichier "Donnees.txt"
-    ReadInputsFromFile(filename);
+    //ReadInputsFromFile(filename);
 
     //Choix d'une configuration particulière du fichier "Donnees.txt" par l'utilisateur
-    recuperation_donnees(profondeur_mu, n_atomes, type_forme, param_supp, type_potentiel, filename);
-    double_n_atomes = n_atomes*2 ;
-    triple_n_atomes = n_atomes*3 ;
+    //recuperation_donnees(profondeur_mu, n_atomes, type_forme, param_supp, type_potentiel, filename);
+    //double_n_atomes = n_atomes*2 ;
+    //triple_n_atomes = n_atomes*3 ;
 
     //Affichage des donnees dans le terminal
-    std::cout << "Parametres configuration : " << std::endl ;
-    std::cout << "Piege avec une profondeur mu = " << profondeur_mu << std::endl ;
-    std::cout << "Contient " << n_atomes << " atomes disposes en " << type_forme << "." << std::endl ;
+    //std::cout << "Parametres configuration : " << std::endl ;
+    //std::cout << "Piege avec une profondeur mu = " << profondeur_mu << std::endl ;
+    //std::cout << "Contient " << n_atomes << " atomes disposes en " << type_forme << "." << std::endl ;
 
 /*    std::cout << "Valeur du pas souhaitee ?" << std::endl ;
     std::cin >> pas ;
@@ -81,21 +81,30 @@ int main( int argc, char **argv )
     std::cout << "2. Covalent" << std::endl ;
     std::cin >> type_potentiel ;*/
 
-    double* P_coordonnees_1 = new double[double_n_atomes];
-    double* P_coordonnees_2 = new double[double_n_atomes];
-    double* P_coordonnees_1_sphere = new double[triple_n_atomes];
-    double* P_coordonnees_2_sphere = new double[triple_n_atomes];
+    //double* P_coordonnees_1 = new double[double_n_atomes];
+    //double* P_coordonnees_2 = new double[double_n_atomes];
+    //double* P_coordonnees_1_sphere = new double[triple_n_atomes];
+    //double* P_coordonnees_2_sphere = new double[triple_n_atomes];
 
-    placer_atomes(type_forme, n_atomes, param_supp, P_coordonnees_1) ;
-    placer_atomes(type_forme, n_atomes, param_supp, P_coordonnees_2) ;
-    placer_sphere(n_atomes, param_supp, P_coordonnees_1_sphere);
+    //placer_atomes(type_forme, n_atomes, param_supp, P_coordonnees_1) ;
+    //placer_atomes(type_forme, n_atomes, param_supp, P_coordonnees_2) ;
+    //placer_sphere(n_atomes, param_supp, P_coordonnees_1_sphere);
+  std::cout << "OK" << std::endl;
+    int n = 50;
+    double dt = 0.2;
+    double rayon = 5.0;
+    double tpsTot = 20.0;
+    std::vector <partChargee> vec;
+    vec = placerSphereBis(n, dt, rayon, tpsTot);
+    std::cout << "OK" << std::endl;
 
-    for(int i=0; i<n_atomes; i++)
+    std::ofstream fichier_log_positions("3D_coordinates.txt");
+    //std::cout.rdbuf(fichier_log_positions);
+    for(int i=0; i<50; i++)
       {
-          std::streambuf* coutbufcoordo = std::cout.rdbuf();
-          std::ofstream fichier_log_positions("3D_coordinates.txt");
-          std::cout.rdbuf(fichier_log_positions.rdbuf());
-          affichage_vecteur_3D(P_coordonnees_1_sphere, n_atomes) ;
+
+          fichier_log_positions << /*"Part #" << i << " : " <<*/ vec[i].lieu.x << ", " << vec[i].lieu.y << ", " << vec[i].lieu.z << std::endl;
+          //affichage_vecteur_3D(vec, 50) ;
       }
 
 /*    if(type_potentiel == 1)

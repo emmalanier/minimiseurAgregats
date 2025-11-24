@@ -94,3 +94,24 @@ void force::setToZero()
   vecForce.ptApp.y = 0.0;
   vecForce.ptApp.z = 0.0;
 }
+
+void force::operator+=(const force& f)
+{
+  valeur += f.valeur;
+  vecForce = vecForce + f.vecForce;
+  
+  vecForce.ptApp.x = vecForce.ptApp.x + f.vecForce.ptApp.x ;
+  vecForce.ptApp.y = vecForce.ptApp.y + f.vecForce.ptApp.y ;
+  vecForce.ptApp.z = vecForce.ptApp.z + f.vecForce.ptApp.z ;
+}
+
+force operator*(const double& scalaire, const force& f)
+{
+  force results;
+
+  results.vecForce.compoX = results.vecForce.compoX * scalaire;
+  results.vecForce.compoY = results.vecForce.compoY * scalaire;
+  results.vecForce.compoZ = results.vecForce.compoZ * scalaire;
+
+  return results;
+}

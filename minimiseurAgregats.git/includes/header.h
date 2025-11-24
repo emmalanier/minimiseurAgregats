@@ -47,7 +47,8 @@ struct force
   vecteur vecForce;
   double valeur;
 
-  void setToZero;
+  void setToZero();
+  void operator+=(const force&);
 };
 
 struct partChargee
@@ -85,7 +86,7 @@ void placer_carre(int &, double &, double* &);
 void placer_triangle(int &, double &, double* &);
 void placement_aleatoire(int&, double&, double*&);
 void placer_sphere(int&, double&, double*&);
-void placerSphereBis(int&, double&);
+std::vector <partChargee> placerSphereBis(int&, double&, double&, double&);
 
 
 //Fonction principale
@@ -113,8 +114,8 @@ double calcul_cov(int&, int&, double*&);
 void Minimiser_Vdw(double* &, const int&, double&, const double&, const int &);
 void Minimiser_Cov(double* &, const int&, double&, const double&, const int &);
 
-force calcForceElec();
-vecteur calculAcceleration(std::vector <force> &, partChargee &);
+force calcForceElec(partChargee, partChargee);
+vecteur calculAcceleration(/*std::vector <force> &*/ partChargee &);
 
 void affichage_vecteur(double*&, const int &);
 void affichage_vecteur_3D(double*&, const int &);
@@ -126,5 +127,5 @@ double operator*(const vecteur&, const vecteur&);
 vecteur operator*(const double&, const vecteur&);
 position operator+(const position&, const vecteur&);
 vecteur operator-(const position&, const position&);
-
+force operator*(const double&, const force&);
 #endif

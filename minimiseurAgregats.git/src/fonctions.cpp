@@ -302,112 +302,94 @@ void placement_aleatoire(int & n_atomes, double & param_supp, double* & P_coordo
     }
 }
 
-void placer_sphere(int& n_atomes, double& param_supp, double*& P_coordonnees/*, int& maxiter_placement, double& pas_placement*/)
+void placer_sphere(int& n_atomes, double& param_supp, double*& P_coordonnees)
 {
-  double x = 0.0;
-  double y = 0.0;
-  double z = 0.0;
-  double theta = 0.0;
-  double rayonBis = 0.0;
+  int n = n_atomes;
+  double r = param_supp;
+  double a = 0.0;
+  double d = 0.0;
+  double mT = 0.0;
+  double dTheta = 0.0;
+  double dPhi = 0.0;
 
-  double goldenRatio = (1.0 + sqrt(5.0))/2.0 ;
+  std::vector <double> vecInter;
 
-//a) Fibonacci (a venir)
+  computeValuesFromDatas(n, r, a, d, mT, dTheta, dPhi);
 
-  for(int i = 0; i<n_atomes; i++)
+  vecInter = computeResults(r, mT, dPhi);
+
+  for(int i=0; i<vecInter.size()/3; i++)
     {
-      rayonBis = sqrt(1.0 - z * z);
-      theta = (i*2.0*M_PI)/goldenRatio ;
-      x = param_supp*rayonBis*cos(theta);
-      y = param_supp*rayonBis*sin(theta);
-      z = 1.0 -((2.0*i)/(n_atomes-1.0));
-
-      P_coordonnees[3*i] = x;
-      P_coordonnees[3*i+1] = y;
-      P_coordonnees[3*i+2] = z;
+      P_coordonnees[3*i]=vecInter[3*i];
+      P_coordonnees[1+3*i]=vecInter[1+3*i];
+      P_coordonnees[2+3*i]=vecInter[2+3*i];
     }
-      
-
-//b) Minimisation du modele de Thomson
-
-  //On effectue un premier placement simple, dans un plan
-/*  srand(time(0));
-  double U_P_coordonnees = 0.0 ;
-  double U_nouveau_vec = 0.0 ;
-  double valeur_deplacement = 0.0 ;
-  double* nouveau_vec = new double[3*n_atomes] ;
-  
-  for(int i=0; i<n_atomes ; i++)
-    {
-      double x = param_supp*cos((2.0*(i+1)*M_PI)/n_atomes) ;
-      double y = param_supp*sin((2.0*(i+1)*M_PI)/n_atomes);
-      P_coordonnees[3*i] = x ;
-      P_coordonnees[(3*i)+1] = y ;
-      P_coordonnees[(3*i)+2] = 0 ; //Correspond à la coordonnée z
-    }*/
-
-
-//On fait ensuite une minimisation
-/*  for(int i = 0 ; i < maxiter_placement ; i ++)
-    {
-      for (int j = 0 ; j<n_atomes*3 ; j ++)
-        {
-          nouveau_vec[j] = P_coordonnees[j] ;
-        }
-
-      for(int j = 0 ; j<n_atomes*3 ; j ++)
-        {
-          valeur_deplacement = (2.0*(1.0*rand()/RAND_MAX)) - 1.0 ;
-          valeur_deplacement *= pas_placement ;
-          nouveau_vec[j] += valeur_deplacement ;
-        }
-
-      for(int k = 0; k<n_atomes*3 ; k++)
-        {
-          for (int l = 1; l < n_atomes*3 ; l++)
-            {
-              U_nouveau_vec += calcul_potentiel_3D(k, l, nouveau_vec);
-              U_P_coordonnees += calcul_potentiel_3D(k, l, P_coordonnees);
-            }
-
-      if(U_nouveau_vec < U_P_coordonnees)
-      {
-        for(int j = 0 ; j < n_atomes*3 ; j++)
-          {
-            P_coordonnees[j] = nouveau_vec[j] ;
-          }
-      }
-    }
-  
-  }*/
 }
 
-/*double calcul_potentiel_3D(int a, int b, double*& vec)
+void computeValuesFromDatas(const int& n, const double& r, double& a, double& d, double& mT, double& dTheta, double& dPhi)
 {
-  double result = 0.0 ;
-  double x_i = 0.0 ;
-  double y_i = 0.0 ;
-  double z_i = 0.0 ;
-  double x_j = 0.0 ;
-  double y_j = 0.0 ;
-  double z_j = 0.0 ;
+  a = (4.0*M_PI)/(1.0*n) ;
+  d = sqrt(a);
+  mT = round(M_PI/d) ;
+  dTheta = M_PI/mT;
+  dPhi = a/dTheta;
+}
 
-  x_i = vec[3*a] ;
-  y_i = vec[1+3*a] ;
-  z_i = vec[2+3*a] ;
-  x_j = vec[3*b] ;
-  y_j = vec[1+3*b] ;
-  z_j = vec[2+3*b] ;
+double placeX(double& theta, double& phi, const double& r)
+{
+  double results;
+  results = sin(theta)*cos(phi);
+  return results;
+}
 
-  double d_x = x_i - x_j ;
-  double d_y = y_i - y_j ;
-  double d_z = z_i - z_j ;
+double placeY(double& theta, double& phi, const double& r)
+{
+  double results;
+  results = sin(theta)*sin(phi);
+  return results;
+}
 
-  double distance = calcul_distance_3D(d_x, d_y, d_z) ;
+double placeZ(double& theta, const double& r)
+{
+  double results;
+  results = cos(theta);
+  return results;
+}
 
-  result = 1.0/distance ;
-  return result ;
-}*/
+std::vector <double> computeResults(double& r, double& mTheta, double& dPhi)
+{
+  std::vector <double> results;
+  double mPhi = 0.0;
+  double theta = 0.0;
+  double phi = 0.0;
+  double r_i = 1.0;
+
+  for(int i=0; i<rint(mTheta); i++)
+    {
+      theta = (M_PI*(i+0.5))/mTheta;
+      mPhi = round((2.0*M_PI*sin(theta))/dPhi);
+
+      for(int j=0; j < rint(mPhi); j++)
+        {
+          phi = (2.0*M_PI*j)/mPhi;
+          results.push_back(placeX(theta, phi, r_i));
+          results.push_back(placeY(theta, phi, r_i));
+          results.push_back(placeZ(theta, r_i));
+        }
+      }
+
+  if(r!=1.0)
+    {
+      for(int i=0; i<results.size()/3; i++)
+        {
+          results[i*3] *=r;
+          results[1+i*3] *=r;
+          results[2+i*3] *=r;
+        }
+    }
+
+  return results;
+}
 
 
 //Fonction principale
@@ -445,59 +427,6 @@ void placer_atomes_3D(std::string & type_forme, int & n_atomes, double & param_s
 {
   return ;
 }
-
-std::vector <partChargee> placerSphereBis(int& n, double& dt, double& rayon, double& tpsTotal)
-{
-  std::vector <partChargee> results;
-  results.resize(n);
-  force forceTotaleApp;
-  forceTotaleApp.setToZero();
-  partChargee noyau;
-  noyau.lieu.x = 0.0;
-  noyau.lieu.y = 0.0;
-  noyau.lieu.z = 0.0;
-  noyau.charge = n*1.0;
-  
-    for(int i=0; i<n ; i++)
-    {
-      double x = rayon *cos((2.0*(i+1)*M_PI)/n) ;
-      double y = rayon*sin((2.0*(i+1)*M_PI)/n);
-      results[i].lieu.x = x ;
-      results[i].lieu.y = y ;
-      results[i].lieu.z = 1.0 -((2.0*i)/(n-1.0)); //Correspond à la coordonnée z
-      results[i].masse = 9.1e-31;
-      results[i].charge = -1.0;
-      results[i].forceSubie.setToZero();
-    }
-
-  for(double t=0.0; t<=tpsTotal; t+=dt)
-    {
-      for(int i=0; i<n; i++)
-        {
-          forceTotaleApp.setToZero();
-
-          for(int j=0; j<n; j++)
-            {
-              if(j!=i)
-                {
-                  forceTotaleApp += calcForceElec(results[i], results[j]);
-                }
-            }
-
-            forceTotaleApp += calcForceElec(results[i], noyau);
-            results[i].forceSubie = forceTotaleApp;
-            results[i].acceleration = calculAcceleration(results[i]);
-        }
-
-      for(int i=0; i<n; i++)
-        {
-          results[i].update(t);
-        }
-      }
-  return results;
-}
-          
-  
 
 
 /////////////////////

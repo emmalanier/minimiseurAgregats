@@ -85,8 +85,17 @@ void placer_cercle(int &, double &, double* &);
 void placer_carre(int &, double &, double* &);
 void placer_triangle(int &, double &, double* &);
 void placement_aleatoire(int&, double&, double*&);
+
+
 void placer_sphere(int&, double&, double*&);
-std::vector <partChargee> placerSphereBis(int&, double&, double&, double&);
+void computeValuesFromDatas(const int&, const double&, double&, double&, double&, double&, double&);
+
+double placeX(double&, double&, const double&);
+double placeY(double&, double&, const double&);
+double placeZ(double&, const double&);
+
+std::vector <double> computeResults(double&, double&, double&);
+
 
 
 //Fonction principale

@@ -1,0 +1,39 @@
+Iter #0 :
+Ancienne energie : 48.3998
+Nouvelle energie : 31.9029
+Iter #20 :
+Ancienne energie : 31.9029
+Nouvelle energie : 48.9438
+Iter #40 :
+Ancienne energie : 16.8592
+Nouvelle energie : 68.7435
+Iter #60 :
+Ancienne energie : 16.8592
+Nouvelle energie : 36.4313
+Iter #80 :
+Ancienne energie : 16.8592
+Nouvelle energie : 49.7185
+Iter #100 :
+Ancienne energie : 16.8592
+Nouvelle energie : 28.9016
+Iter #120 :
+Ancienne energie : 16.8592
+Nouvelle energie : 54.3688
+Iter #140 :
+Ancienne energie : 19.5908
+Nouvelle energie : 39.1917
+Iter #160 :
+Ancienne energie : 19.5908
+Nouvelle energie : 62.9583
+Iter #180 :
+Ancienne energie : 18.1447
+Nouvelle energie : 20.716
+Iter #200 :
+Ancienne energie : 15.7576
+Nouvelle energie : 43.9893
+Iter #220 :
+Ancienne energie : 15.8746
+Nouvelle energie : 35.8335
+Iter #240 :
+Ancienne energie : 15.8746
+Nouvelle energie : 44.0691

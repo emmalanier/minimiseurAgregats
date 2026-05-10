@@ -118,7 +118,10 @@ void recuperation_donnees_console(double& mu, int& n_atomes, std::string& type_f
   std::cout << "2. Carre" << std::endl;
   std::cout << "3. Triangle" << std::endl;
   std::cout << "4. Aleatoire" << std::endl;
+<<<<<<< HEAD
   std::cout << "5. Sphere" << std::endl;
+=======
+>>>>>>> b0b1339f259324facc902bdd5c7c41c903f88cd7
   
   std::cin >> tf;
     switch(tf)
@@ -138,10 +141,13 @@ void recuperation_donnees_console(double& mu, int& n_atomes, std::string& type_f
         case 4 :
           type_forme = "Aleatoire" ;
           break ;
+<<<<<<< HEAD
 
         case 5 : 
           type_forme = "Sphere" ;
           break;
+=======
+>>>>>>> b0b1339f259324facc902bdd5c7c41c903f88cd7
         }
   
   std::cout << "Type de potentiel ? (choisir un numero parmi les options proposees)" << std::endl;
@@ -150,7 +156,10 @@ void recuperation_donnees_console(double& mu, int& n_atomes, std::string& type_f
   std::cin >> type_potentiel;
 }
 
+<<<<<<< HEAD
 /*
+=======
+>>>>>>> b0b1339f259324facc902bdd5c7c41c903f88cd7
 ////////////////////////
 //Placement des atomes//
 ////////////////////////
@@ -433,7 +442,11 @@ void placer_atomes_3D(std::string & type_forme, int & n_atomes, double & param_s
 {
   return ;
 }
+<<<<<<< HEAD
 */
+=======
+
+>>>>>>> b0b1339f259324facc902bdd5c7c41c903f88cd7
 
 /////////////////////
 //TEST PLACEMENT 3D//

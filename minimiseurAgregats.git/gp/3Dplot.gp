@@ -3,6 +3,7 @@
 # 3D Plot Script - Single Configuration
 # ==========================================
 
+<<<<<<< HEAD
 #filename = '../src/3D_coordinates.txt'
 
 # Lecture du nombre d'atomes depuis la première ligne
@@ -65,6 +66,21 @@ set terminal pngcairo size 800,800 enhanced font 'Helvetica,10'
 set output '3D_plot.png'
 
 # Palette (pink and purple gradient)
+=======
+filename = '../src/3D_coordinates.txt'
+
+# Lecture du nombre d'atomes depuis la première ligne
+firstline = system("head -n 1 ".filename)
+ncolonnes = words(firstline)
+n_atomes = int(ncolonnes / 3)
+
+# Réglage général
+param = 10   # définit l'étendue des axes
+set terminal pngcairo size 800,800 enhanced font 'Helvetica,10'
+set output '3D_plot.png'
+
+# Palette rose-violet lissée
+>>>>>>> b0b1339f259324facc902bdd5c7c41c903f88cd7
 set palette defined (\
     0  0.1647 0.0314 0.2706, \
     1  0.4157 0.0196 0.4471, \
@@ -76,7 +92,10 @@ set palette color
 
 # Paramètres du graphe
 unset key
+<<<<<<< HEAD
 set view equal xyz
+=======
+>>>>>>> b0b1339f259324facc902bdd5c7c41c903f88cd7
 set size ratio -1
 set xlabel "x" textcolor rgb "black"
 set ylabel "y" textcolor rgb "black"
@@ -88,11 +107,19 @@ set zrange [-param:param]
 set title "Configuration unique" textcolor rgb "black"
 set border lc rgb "black"
 set tics textcolor rgb "black"
+<<<<<<< HEAD
 set view 80, 60, 1.0, 1.0  # Vue 3D
 
 # --- 3D plot ---
 splot '../src/3D_coordinates.txt' using 1:2:3:(acos($3 / sqrt($1*$1 + $2*$2 + $3*$3))) \
       with points pt 7 ps 1 lc palette
 
+=======
+set view 90, 30, 1.0, 1.0  # Vue 3D
+
+# --- 3D plot ---
+splot for [j=(n_atomes-1):0:-1] filename every ::0::0 using (column(3*j+1)):(column(3*j+2)):(column(3*j+3)):(j) \
+ with points pt 7 ps 1 lc palette
+>>>>>>> b0b1339f259324facc902bdd5c7c41c903f88cd7
 
 unset output

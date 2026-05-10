@@ -17,20 +17,12 @@
 #include <iostream>
 #include <iomanip>
 
-<<<<<<< HEAD
-=======
-//using namespace std ;
->>>>>>> b0b1339f259324facc902bdd5c7c41c903f88cd7
 
 ////////////////////////////
 //DECLARATION DE VARIABLES//
 ////////////////////////////
 
-<<<<<<< HEAD
 int n_atomes = 200 ;
-=======
-/*int n_atomes = 200 ;
->>>>>>> b0b1339f259324facc902bdd5c7c41c903f88cd7
 int double_n_atomes = 400 ;
 int triple_n_atomes = 600 ;
 double profondeur_mu = 0.0 ; //"Profondeur" mu du piège ; plus elle est élevée, plus l'énergie potentielle augmente
@@ -55,11 +47,7 @@ double temps_cov = 0.0 ;
 double dt_cov = 0.0 ;
 
 //3D feature
-<<<<<<< HEAD
 //int numberOfDimensions = 0;
-=======
-int numberOfDimensions = 0;*/
->>>>>>> b0b1339f259324facc902bdd5c7c41c903f88cd7
 
 
 /////////////////
@@ -69,7 +57,6 @@ int numberOfDimensions = 0;*/
 int main( /*int argc, char **argv*/ )
 {
     //Recuperation de toutes les donnees contenues dans le fichier "Donnees.txt"
-<<<<<<< HEAD
     ReadInputsFromFile(filename);
 
     //Choix d'une configuration particulière du fichier "Donnees.txt" par l'utilisateur
@@ -83,21 +70,6 @@ int main( /*int argc, char **argv*/ )
     std::cout << "Contient " << n_atomes << " atomes disposes en " << type_forme << "." << std::endl ;
 
     std::cout << "Valeur du pas souhaitee ?" << std::endl ;
-=======
-    //ReadInputsFromFile(filename);
-
-    //Choix d'une configuration particulière du fichier "Donnees.txt" par l'utilisateur
-    //recuperation_donnees(profondeur_mu, n_atomes, type_forme, param_supp, type_potentiel, filename);
-    //double_n_atomes = n_atomes*2 ;
-    //triple_n_atomes = n_atomes*3 ;
-
-    //Affichage des donnees dans le terminal
-    //std::cout << "Parametres configuration : " << std::endl ;
-    //std::cout << "Piege avec une profondeur mu = " << profondeur_mu << std::endl ;
-    //std::cout << "Contient " << n_atomes << " atomes disposes en " << type_forme << "." << std::endl ;
-
-/*    std::cout << "Valeur du pas souhaitee ?" << std::endl ;
->>>>>>> b0b1339f259324facc902bdd5c7c41c903f88cd7
     std::cin >> pas ;
     std::cout << "Valeur du facteur de decrementation souhaitée ?" << std::endl ; 
     std::cin >> decremente ;
@@ -106,7 +78,6 @@ int main( /*int argc, char **argv*/ )
     std::cout << "Type de potentiel souhaite ? " << std::endl ;
     std::cout << "1. Van der Waals" << std::endl ;
     std::cout << "2. Covalent" << std::endl ;
-<<<<<<< HEAD
     std::cin >> type_potentiel ;
 
     
@@ -142,37 +113,6 @@ int main( /*int argc, char **argv*/ )
       }*/
 
     if(type_potentiel == 1)
-=======
-    std::cin >> type_potentiel ;*/
-
-    //double* P_coordonnees_1 = new double[double_n_atomes];
-    //double* P_coordonnees_2 = new double[double_n_atomes];
-    //double* P_coordonnees_1_sphere = new double[triple_n_atomes];
-    //double* P_coordonnees_2_sphere = new double[triple_n_atomes];
-
-    //placer_atomes(type_forme, n_atomes, param_supp, P_coordonnees_1) ;
-    //placer_atomes(type_forme, n_atomes, param_supp, P_coordonnees_2) ;
-    //placer_sphere(n_atomes, param_supp, P_coordonnees_1_sphere);
-  std::cout << "OK" << std::endl;
-    int n = 50;
-    double dt = 0.2;
-    double rayon = 5.0;
-    double tpsTot = 20.0;
-    std::vector <partChargee> vec;
-    vec = placerSphereBis(n, dt, rayon, tpsTot);
-    std::cout << "OK" << std::endl;
-
-    std::ofstream fichier_log_positions("3D_coordinates.txt");
-    //std::cout.rdbuf(fichier_log_positions);
-    for(int i=0; i<50; i++)
-      {
-
-          fichier_log_positions << /*"Part #" << i << " : " <<*/ vec[i].lieu.x << ", " << vec[i].lieu.y << ", " << vec[i].lieu.z << std::endl;
-          //affichage_vecteur_3D(vec, 50) ;
-      }
-
-/*    if(type_potentiel == 1)
->>>>>>> b0b1339f259324facc902bdd5c7c41c903f88cd7
         {
             temps_vdw = clock ();    
             Minimiser_Vdw(P_coordonnees_1, n_atomes, pas, decremente, maxiter) ;
@@ -207,11 +147,7 @@ int main( /*int argc, char **argv*/ )
             dt_cov /= (double)CLOCKS_PER_SEC ;
         
             std::cout << "Minimisation pour Covalent terminée, avec un temps de calcul de " << dt_cov << " secondes." << std::endl ;
-<<<<<<< HEAD
         }
-=======
-        }*/
->>>>>>> b0b1339f259324facc902bdd5c7c41c903f88cd7
 
     return 0 ; 
 }

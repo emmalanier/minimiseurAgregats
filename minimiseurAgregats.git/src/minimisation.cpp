@@ -20,11 +20,7 @@
 //modifiées avant de réévaluer l'énergie. Si cette modification permet de la diminuer, elle est conservée. Sinon, 
 //l'atome conserve ses coordonnées actuelles.
 
-<<<<<<< HEAD
 void Minimiser_Vdw(double* & P_coordo, const int& n_atomes, double& pas, const double & decremente, const int & maxiter, const std::string & type_forme)
-=======
-void Minimiser_Vdw(double* & P_coordo, const int& n_atomes, double& pas, const double & decremente, const int & maxiter)
->>>>>>> b0b1339f259324facc902bdd5c7c41c903f88cd7
 {
   std::streambuf* coutbuf = std::cout.rdbuf();
   std::ofstream fichier_log_NRJ("NRJ_minimisation_vdw.txt");
@@ -34,17 +30,11 @@ void Minimiser_Vdw(double* & P_coordo, const int& n_atomes, double& pas, const d
   double NRJ_P_coordo = 0.0 ;
   double NRJ_nouveau_vec = 0.0 ;
   double valeur_deplacement = 0.0 ;
-<<<<<<< HEAD
 
 
   
   double* nouveau_vec = new double[2*n_atomes] ;
 
-=======
-  double* nouveau_vec = new double[2*n_atomes] ;
-
-
->>>>>>> b0b1339f259324facc902bdd5c7c41c903f88cd7
   for(int i = 0 ; i < maxiter ; i ++)
     {
       //Partie 1 de la recherche de Monte-Carlo : tout le vecteur est modifié avant d'évaluer l'énergie
@@ -90,12 +80,9 @@ void Minimiser_Vdw(double* & P_coordo, const int& n_atomes, double& pas, const d
           }
       }
 
-<<<<<<< HEAD
       double* nouveau_vec_3D = new double[3*n_atomes] ;
 
 
-=======
->>>>>>> b0b1339f259324facc902bdd5c7c41c903f88cd7
       if(i%20 == 0) //A modifier pour que l'utilisateur puisse moduler la fréquence d'output des données
       {
         std::cout.rdbuf(fichier_log_NRJ.rdbuf());

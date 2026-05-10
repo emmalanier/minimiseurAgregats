@@ -42,18 +42,6 @@ struct vecteur
   vecteur normalize();
 };
 
-<<<<<<< HEAD
-
-=======
-struct force
-{
-  vecteur vecForce;
-  double valeur;
-
-  void setToZero();
-  void operator+=(const force&);
-};
->>>>>>> b0b1339f259324facc902bdd5c7c41c903f88cd7
 
 struct partChargee
 {
@@ -63,11 +51,6 @@ struct partChargee
   position lieu;
   vecteur vitesse;
   vecteur acceleration;
-<<<<<<< HEAD
-
-=======
-  force forceSubie;
->>>>>>> b0b1339f259324facc902bdd5c7c41c903f88cd7
 
   void update(double);
 };
@@ -128,17 +111,9 @@ double calcul_piege(int&, double*&);
 double calcul_vdw(int&, int&, double*&);
 double calcul_cov(int&, int&, double*&);
 
-<<<<<<< HEAD
 void Minimiser_Vdw(double* &, const int&, double&, const double&, const int &, const std::string);
 void Minimiser_Cov(double* &, const int&, double&, const double&, const int &);
 
-=======
-void Minimiser_Vdw(double* &, const int&, double&, const double&, const int &);
-void Minimiser_Cov(double* &, const int&, double&, const double&, const int &);
-
-force calcForceElec(partChargee, partChargee);
-vecteur calculAcceleration(/*std::vector <force> &*/ partChargee &);
->>>>>>> b0b1339f259324facc902bdd5c7c41c903f88cd7
 
 void affichage_vecteur(double*&, const int &);
 void affichage_vecteur_3D(double*&, const int &);
@@ -150,9 +125,4 @@ double operator*(const vecteur&, const vecteur&);
 vecteur operator*(const double&, const vecteur&);
 position operator+(const position&, const vecteur&);
 vecteur operator-(const position&, const position&);
-<<<<<<< HEAD
-
-=======
-force operator*(const double&, const force&);
->>>>>>> b0b1339f259324facc902bdd5c7c41c903f88cd7
 #endif

@@ -111,7 +111,7 @@ double calcul_piege(int&, double*&);
 double calcul_vdw(int&, int&, double*&);
 double calcul_cov(int&, int&, double*&);
 
-void Minimiser_Vdw(double* &, const int&, double&, const double&, const int &, const std::string);
+void Minimiser_Vdw(double* &, const int&, double&, const double&, const int &);
 void Minimiser_Cov(double* &, const int&, double&, const double&, const int &);
 
 

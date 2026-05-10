@@ -49,6 +49,8 @@ double dt_cov = 0.0 ;
 //3D feature
 //int numberOfDimensions = 0;
 
+double* P_coordonnees_1 = nullptr;
+double* P_coordonnees_2 = nullptr;
 
 /////////////////
 //CORPS DU MAIN//
@@ -81,7 +83,7 @@ int main( /*int argc, char **argv*/ )
     std::cin >> type_potentiel ;
 
     
-    if(type_forme = "Cercle" || type_forme = "Carre" || type_forme = "Triangle" || type_forme = "aleatoire")
+    if(type_forme == "Cercle" || type_forme == "Carre" || type_forme == "Triangle" || type_forme == "aleatoire")
       {
         double* P_coordonnees_1 = new double[double_n_atomes];
         double* P_coordonnees_2 = new double[double_n_atomes];
@@ -101,16 +103,16 @@ int main( /*int argc, char **argv*/ )
 
     std::cout << "OK" << std::endl;
 
-/*    std::ofstream fichier_log_positions("3D_coordinates.txt");
+//    std::ofstream fichier_log_positions("3D_coordinates.txt");
     //std::cout.rdbuf(fichier_log_positions);
-    for(int i=0; i<50; i++)
-      {
-            fichier_log_positions << /*"Part #" << i << " : " <<*/ P_coordonnees_1_sphere[i*3] << ", " << P_coordonnees_1_sphere[1+i*3] << ", " << P_coordonnees_1[2+i*3] << std::endl;
-          affichage_vecteur_3D(P_coordonnees_1, 50) ;
+    //for(int i=0; i<50; i++)
+    //  {
+    //        fichier_log_positions << /*"Part #" << i << " : " << P_coordonnees_1_sphere[i*3] << ", " << P_coordonnees_1_sphere[1+i*3] << ", " << P_coordonnees_1[2+i*3] << std::endl;
+     //     affichage_vecteur_3D(P_coordonnees_1, 50) ;
 
-//          fichier_log_positions << /*"Part #" << i << " : " <<*/ vec[i].lieu.x << ", " << vec[i].lieu.y << ", " << vec[i].lieu.z << std::endl;
+//          fichier_log_positions << /*"Part #" << i << " : " << vec[i].lieu.x << ", " << vec[i].lieu.y << ", " << vec[i].lieu.z << std::endl;
 //          affichage_vecteur_3D(vec, 50) ;
-      }*/
+//      }
 
     if(type_potentiel == 1)
         {

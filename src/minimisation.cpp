@@ -20,7 +20,7 @@
 //modifiées avant de réévaluer l'énergie. Si cette modification permet de la diminuer, elle est conservée. Sinon, 
 //l'atome conserve ses coordonnées actuelles.
 
-void Minimiser_Vdw(double* & P_coordo, const int& n_atomes, double& pas, const double & decremente, const int & maxiter, const std::string & type_forme)
+void Minimiser_Vdw(double* & P_coordo, const int& n_atomes, double& pas, const double & decremente, const int & maxiter)
 {
   std::streambuf* coutbuf = std::cout.rdbuf();
   std::ofstream fichier_log_NRJ("NRJ_minimisation_vdw.txt");
